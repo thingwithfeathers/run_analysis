@@ -43,3 +43,4 @@ melted<-transform(meltedData, subject = factor(subject))
 melted$variable<-as.numeric(melted$variable)
 aggregate(value~activity+subject, data=melted, FUN="mean", narm=TRUE)
 
+
