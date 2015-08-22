@@ -57,9 +57,14 @@ nearfinal<-join_all(dfList)
 subjactiv<-dataframe[,1:2]
 final<-cbind(subjactiv, nearfinal)
 
-##creating a new dataframe to answer question 5. First, melt the data. Then use the aggregate() function, which I stumbled across while trying to find a group_by()/summarize() approach. Here is the source: http://www.slideshare.net/jeffreybreen/grouping-summarizing-data-in-r
+##creating a new dataframe to answer question 5. First, you will need to load the reshape2 package in order to be able to "melt" the data, or change it into a narrow format from a wide format. Then use the aggregate() function, which I stumbled across while trying to find a group_by()/summarize() approach. Here is the source: http://www.slideshare.net/jeffreybreen/grouping-summarizing-data-in-r
 
-
+install.packages("reshape2")
+library(reshape2)
+meltedData<-melt(final, id.vars = c("subject", "activity"))
+melted<-transform(meltedData, subject = factor(subject))
+melted$variable<-as.numeric(melted$variable)
+aggregate(value~activity+subject, data=melted, FUN="mean", narm=TRUE)
 meltedData<-melt(final, id.vars = c("subject", "activity"))
 melted<-transform(meltedData, subject = factor(subject))
 melted$variable<-as.numeric(melted$variable)
